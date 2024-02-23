@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device=width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" type="text/css" href="styling.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styling.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <!-- Link for icons: https://fonts.google.com/icons -->
+  </head>
+  <body>
+    <h1>Animate</h1>
+    <h2>Find Your Perfect Anime Match</h2>
+    <h3>Discover new anime and connect with other Otakus</h3>
+    <!-- <div >
+      <label for="username"> Username (4 to 8 characters): </label>
+      <input type="text" id="username" required minlength="4" maxlength="8"> </input>
+    </div> -->
+
+    <div class="form-box">
+      <h4>Login Here</h4>
+      <form method="POST">
+        <div class="input">
+          <i class="material-icons">person</i>
+          <input
+            type="text"
+            name="username"
+            id="input"
+            required
+            minlength="4"
+            maxlength="8"
+            placeholder="Username"
+          />
+        </div>
+
+        <div class="input">
+          <i class="material-icons">password</i>
+          <input
+            name="password"
+            type="password"
+            id="myInput"
+            placeholder="Password"
+          />
+          <span class="eye" onclick="myFunction()">
+            <i id="hide1" class="material-icons">visibility</i>
+            <i id="hide2" class="material-icons">visibility_off</i>
+          </span>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+      </form>
+    </div>
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myInput");
+        var y = document.getElementById("hide1");
+        var z = document.getElementById("hide2");
+        if (x.type === "password") {
+          x.type = "text";
+          y.style.display = "block";
+          z.style.display = "none";
+        } else {
+          x.type = "password";
+          y.style.display = "none";
+          z.style.display = "block";
+        }
+      }
+    </script>
+
+    <!-- <div id="choices">
+      <button onclick="swipe('dislike')">❌</button>
+      <button onclick="swipe('like')">❤️</button>
+    </div> -->
+  </body>
+</html>
