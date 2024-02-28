@@ -20,8 +20,17 @@ class Connector:
         else:
             print("connection successful")
 
-    def get_color(self):
-        return self.color
+    def submit(self, fname):
+        try:
+            # Execute the INSERT statement
+            self.cur.execute("INSERT INTO users (first_name) VALUES (%s)", (fname,))
+            # Commit the transaction
+            self.conn.commit()
+        except Exception as e:
+            # Rollback the transaction in case of error
+            self.conn.rollback()
+            raise e  # Re-raise the exception for handling in the caller
+
     
     def parse_data(self):
         return self.soup

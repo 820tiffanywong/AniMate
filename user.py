@@ -43,7 +43,7 @@ class User(Connector):
         password = PasswordField('Password', validators=[DataRequired()])
         remember = BooleanField('Remember Me')
         submit = SubmitField('Login')
-        '''
+        
     def verify_user(self,username,password):
         conn = psycopg2.connect(**db_params)
         cur = conn.cursor()
@@ -73,8 +73,7 @@ class User(Connector):
         self.conn.commit()
 
         print("done!")
-
-         '''
+    
 
 # main_menu = User("tiffany")
 # main_menu.menu()

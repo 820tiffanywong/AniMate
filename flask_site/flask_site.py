@@ -8,6 +8,9 @@ from flask_sqlalchemy import SQLAlchemy
 from user import User
 from postgres import Connector
 
+
+cur = Connector()
+
 # # Add the parent directory to the Python path
 # sys.path.append('..')
 # Get the directory of the current script
@@ -18,9 +21,9 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 app = Flask(__name__)
 app.config['SECRET_KEY']='12345'
+db = Connector()
 
 @app.route("/")
-
 @app.route("/home", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -29,7 +32,7 @@ def home():
         username = request.form.get("username")
         password = request.form.get("password")
         print(username, password)
-       
+        
         # check if already on database
         query = f"SELECT 1 FROM username WHERE username = '{username}';"
         cur.execute(query)
@@ -38,7 +41,7 @@ def home():
         # let user know username is taken
         if len(current_users > 0):
             print("USERNAME TAKEN")
-
+        
     return render_template('home.html')
 
 @app.route("/about")
@@ -48,9 +51,25 @@ def about():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    if request.method == 'POST':
+        try:
+            fname = request.form.get("fname")
+            lname = request.form.get("lname")
+            username = request.form.get("username")
+            password = request.form.get("password")
+            print(fname, lname, username, password)  # Check form data
+            # Process form data (e.g., insert into database)
+            print('Form processed successfully')  # Debugging statement
+            return 'Form submitted successfully'  # Placeholder response
+        except Exception as e:
+            print(f'An error occurred: {e}')  # Debugging statement
+            return f'An error occurred: {e}'
+   
+    """
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
+    """
     return render_template('register.html', title='Register', form=form)
 
 @app.route("/login")
