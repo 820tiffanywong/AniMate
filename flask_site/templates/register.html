@@ -57,31 +57,40 @@
           />
         </div>
         <div class="input">
-            <i class="material-icons">person</i>
-            <input
-              type="text"
-              name="username"
-              id="input"
-              required
-              minlength="3"
-              maxlength="12"
-              placeholder="Username"
-            />
-          </div>
+          <i class="material-icons">person</i>
+          {{ form.username(class="form-control form-control-lg", placeholder="Username") }}
+          {% for error in form.username.errors %}
+              <span style="color: red;">{{ error }}</span>
+          {% endfor %}
+      </div>
 
-        <div class="input">
-          <i class="material-icons">password</i>
-          <input
-            name="password"
-            type="password"
-            id="myInput"
-            placeholder="Password"
-          />
-          <span class="eye" onclick="myFunction()">
-            <i id="hide1" class="material-icons">visibility</i>
-            <i id="hide2" class="material-icons">visibility_off</i>
-          </span>
-        </div>
+      <div class="input">
+        <i class="material-icons">password</i>
+        <input
+          name="password"
+          type="password"
+          id="passwordInput"
+          placeholder="Password"
+        />
+        <span class="eye" onclick="togglePasswordVisibility('passwordInput', 'hide1', 'hide2')">
+          <i id="hide1" class="material-icons">visibility</i>
+          <i id="hide2" class="material-icons">visibility_off</i>
+        </span>
+      </div>
+      <div class="input">
+        <i class="material-icons">password</i>
+        <input
+          name="confirmPassword"
+          type="password"
+          id="confirmPasswordInput"
+          placeholder="Confirm Password"
+        />
+        <span class="eye" onclick="togglePasswordVisibility('confirmPasswordInput', 'hide3', 'hide4')">
+          <i id="hide3" class="material-icons">visibility</i>
+          <i id="hide4" class="material-icons">visibility_off</i>
+        </span>
+      </div>
+      
         <button type="submit" class="login-button">Create Account</button>
         <div class="register-border">
             <span class="white">Already Have An Account? 
@@ -95,10 +104,10 @@
     </div>
     
     <script>
-      function myFunction() {
-        var x = document.getElementById("myInput");
-        var y = document.getElementById("hide1");
-        var z = document.getElementById("hide2");
+      function togglePasswordVisibility(inputId, showIconId, hideIconId) {
+        var x = document.getElementById(inputId);
+        var y = document.getElementById(showIconId);
+        var z = document.getElementById(hideIconId);
         if (x.type === "password") {
           x.type = "text";
           y.style.display = "block";

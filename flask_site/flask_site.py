@@ -59,8 +59,9 @@ def register():
             password = request.form.get("password")
             print(fname, lname, username, password)  # Check form data
             # Process form data (e.g., insert into database)
-            print('Form processed successfully')  # Debugging statement
-            return 'Form submitted successfully'  # Placeholder response
+            # print('Form processed successfully')  # Debugging statement
+            db.create_user(username, fname, lname, password)
+            # return 'Form submitted successfully'  # Placeholder response
         except Exception as e:
             print(f'An error occurred: {e}')  # Debugging statement
             return f'An error occurred: {e}'
