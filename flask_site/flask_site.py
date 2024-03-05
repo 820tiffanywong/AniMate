@@ -3,7 +3,7 @@ import os
 import psycopg2
 sys.path.append('..')
 from flask import Flask, render_template, request, flash, url_for, redirect
-from forms import RegistrationForm
+from forms import RegistrationForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from user import User
 from postgres import Connector
@@ -23,6 +23,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY']='12345'
 db = Connector()
 user = User()
+
+
 @app.route("/")
 @app.route("/home", methods=["GET", "POST"])
 def home():
@@ -32,15 +34,18 @@ def home():
         username = request.form.get("username")
         password = request.form.get("password")
         print(username, password)
-        
+        user.verify_user(username,password)
         # check if already on database
-        query = f"SELECT 1 FROM username WHERE username = '{username}';"
-        cur.execute(query)
-        current_users = cur.fetchall()
+        #query = f"SELECT 1 FROM username WHERE username = '{username}';"
+        # cur.execute("SELECT password FROM users WHERE username = %s", (username,))
+        # result = cur.fetchone()
+        # cur.close()
+        # cur.execute(query)
+        # current_users = cur.fetchall()
 
         # let user know username is taken
-        if len(current_users > 0):
-            print("USERNAME TAKEN")
+        # if len(current_users > 0):
+        #     print("USERNAME TAKEN")
         
     return render_template('home.html')
 
@@ -80,7 +85,7 @@ def register():
     """
     return render_template('register.html', title='Register', form=form)
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login", methods=['GET'])
 def login():
     #form = User.login_form()
     form = LoginForm()

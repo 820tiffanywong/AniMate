@@ -38,17 +38,7 @@ class User(Connector):
     #         self.set_username(new_username)
     #         self.send_to_db()
 
-
-    def login_form(FlaskForm):
-        email = StringField('Email', validators=[DataRequired(), Email()])
-        password = PasswordField('Password', validators=[DataRequired()])
-        remember = BooleanField('Remember Me')
-        submit = SubmitField('Login')
-        
     def verify_user(self,username,password):
-        conn = psycopg2.connect(**db_params)
-        cur = conn.cursor()
-
         self.cur.execute("SELECT password FROM users WHERE username = %s", (username,))
         rows = self.cur.fetchall()
         if len(rows)>0:
