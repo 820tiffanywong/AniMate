@@ -22,7 +22,7 @@ sys.path.append(parent_dir)
 app = Flask(__name__)
 app.config['SECRET_KEY']='12345'
 db = Connector()
-
+user = User()
 @app.route("/")
 @app.route("/home", methods=["GET", "POST"])
 def home():
@@ -57,10 +57,17 @@ def register():
             lname = request.form.get("lname")
             username = request.form.get("username")
             password = request.form.get("password")
-            print(fname, lname, username, password)  # Check form data
+            confirm_password = request.form.get("confirm_password")
+            print(fname, lname, username, password, confirm_password)  # Check form data
             # Process form data (e.g., insert into database)
-            # print('Form processed successfully')  # Debugging statement
-            db.create_user(username, fname, lname, password)
+            if password == confirm_password:
+            # Process user registration
+            # Add your database logic here
+                user.create_user(username, fname, lname, password)
+                print("User registered successfully!")
+            else:
+                print("Passwords do not match. Please try again.")
+            
             # return 'Form submitted successfully'  # Placeholder response
         except Exception as e:
             print(f'An error occurred: {e}')  # Debugging statement
@@ -73,10 +80,21 @@ def register():
     """
     return render_template('register.html', title='Register', form=form)
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    form = User.login_form()
-    return render_template('login.html', title='Login', form=form)
+    #form = User.login_form()
+    form = LoginForm()
+    username = request.form['username']
+    password = request.form['password']
+    
+    user = User(username)  # Instantiate User class
+    message = user.verify_user(username, password)  # Validate user
+    if form.validate_on_submit():
+        # Check if the user credentials are valid (you need to implement this)
+        # For demonstration, let's assume the login is successful
+        # Redirect to the anime swiping page after successful login
+        return redirect(url_for('login'))
+    return render_template('login.html', title='Login', form=form, message=message)
 
 @app.route("/validate", methods=['POST'])  # Bind to a route and specify accepted methods
 def validate_username(self):

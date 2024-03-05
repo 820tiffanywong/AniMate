@@ -1,5 +1,6 @@
 import psycopg2
 import bcrypt
+import hashlib
 from postgres import Connector
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
@@ -7,7 +8,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
 class User(Connector):
-    def __init__(self, username) -> None:
+    def __init__(self) -> None:
         
         super().__init__()
 
@@ -56,6 +57,32 @@ class User(Connector):
             print("That user does not exist, please try again or create an account.")
             if username is not None:
                 print("Welcome back " + username)
+
+    def create_user(self, username, fname, lname, password):
+        query = f"SELECT 1 FROM users WHERE username = '{username}';"
+        self.cur.execute(query)
+        current_users = self.cur.fetchall()
+
+        # let user know username is taken
+        if len(current_users) > 0:
+            print("USERNAME TAKEN")
+        else:
+            try:
+                hashed_password = hashlib.sha256(password.encode()).hexdigest()
+            
+
+                # Execute the INSERT statement
+                self.cur.execute("INSERT INTO users (username, first_name, last_name, password) VALUES (%s, %s, %s, %s)",
+                                (username, fname, lname, hashed_password))
+
+                # Commit the transaction
+                self.conn.commit()
+                print("done")
+
+            except Exception as e:
+                # Rollback the transaction in case of error
+                self.conn.rollback()
+                raise e  # Re-raise the exception for handling in the caller
                 
     def get_username(self):
         return self.username
