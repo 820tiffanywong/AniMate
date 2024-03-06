@@ -19,7 +19,18 @@ class Connector:
             print("error connecting to database")
         else:
             print("connection successful")
-
+    def get_cursor(self):
+        """
+        Get a cursor for executing SQL queries.
+        """
+        return self.cur
+    def close(self):
+        """
+        Close the database connection.
+        """
+        self.cur.close()
+        self.conn.close()
+        print("Connection closed.")
     def parse_data(self):
         return self.soup
 

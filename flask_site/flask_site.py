@@ -34,7 +34,13 @@ def home():
         username = request.form.get("username")
         password = request.form.get("password")
         print(username, password)
-        user.verify_user(username,password)
+        if user.verify_user(username,password):
+            print("login page accessed")
+            return redirect(url_for('login'))
+        else:
+            print("invalid credentials")
+    return render_template('home.html')
+
         # check if already on database
         #query = f"SELECT 1 FROM username WHERE username = '{username}';"
         # cur.execute("SELECT password FROM users WHERE username = %s", (username,))
@@ -47,7 +53,7 @@ def home():
         # if len(current_users > 0):
         #     print("USERNAME TAKEN")
         
-    return render_template('home.html')
+
 
 @app.route("/about")
 def about():
@@ -89,17 +95,17 @@ def register():
 def login():
     #form = User.login_form()
     form = LoginForm()
-    username = request.form['username']
-    password = request.form['password']
+    # username = request.form['username']
+    # password = request.form['password']
     
-    user = User(username)  # Instantiate User class
-    message = user.verify_user(username, password)  # Validate user
-    if form.validate_on_submit():
+    # user = User(username)  # Instantiate User class
+    # message = user.verify_user(username, password)  # Validate user
+    # if form.validate_on_submit():
         # Check if the user credentials are valid (you need to implement this)
         # For demonstration, let's assume the login is successful
         # Redirect to the anime swiping page after successful login
-        return redirect(url_for('login'))
-    return render_template('login.html', title='Login', form=form, message=message)
+        # return redirect(url_for('login'))
+    return render_template('login.html', title='Login', form=form)
 
 @app.route("/validate", methods=['POST'])  # Bind to a route and specify accepted methods
 def validate_username(self):

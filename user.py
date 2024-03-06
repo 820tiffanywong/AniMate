@@ -39,14 +39,27 @@ class User(Connector):
     #         self.send_to_db()
 
     def verify_user(self,username,password):
-        self.cur.execute("SELECT password FROM users WHERE username = %s", (username,))
-        rows = self.cur.fetchall()
-        if len(rows)>0:
-            print("Welcome back " + username)
-        else: 
-            print("That user does not exist, please try again or create an account.")
-            if username is not None:
-                print("Welcome back " + username)
+        try:
+            self.cur.execute("SELECT password FROM users WHERE username = %s", (username,))
+            rows = self.cur.fetchall()
+            
+            if len(rows) > 0:
+                hashed_password_from_db = rows[0][0]
+                hashed_entered_password = hashlib.sha256(password.encode()).hexdigest()
+                # Verify the password
+                if hashed_entered_password == hashed_password_from_db:
+                #if bcrypt.checkpw(password.encode('utf-8'), hashed_password_from_db.encode('utf-8')):
+                    print("Welcome back " + username)
+                    return True
+                else:
+                    print("Incorrect password. Please try again.")
+                    return False
+            else:
+                print("That user does not exist. Please try again or create an account.")
+                return False
+        except Exception as e:
+            print(f"Error verifying user: {e}")
+            return False
 
     def create_user(self, username, fname, lname, password):
         query = f"SELECT 1 FROM users WHERE username = '{username}';"

@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Tinder</title>
+    <h1>Swipe to find your Anime Match</h1>
     <style>
-        /* Add your CSS styling here */
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container styles */
         .container {
             position: relative;
             width: 300px;
@@ -13,7 +21,12 @@
             margin: 50px auto;
             border: 1px solid #ccc;
             overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
+
+        /* Anime image styles */
         .anime {
             position: absolute;
             width: 100%;
@@ -21,32 +34,48 @@
             background-size: cover;
             background-position: center;
             transition: transform 0.5s ease;
+            border-radius: 10px;
         }
-        .like, .dislike {
+
+        /* Button styles */
+        .button {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             font-size: 24px;
             cursor: pointer;
             z-index: 1;
+            background-color: transparent;
+            border: none;
+            outline: none;
         }
+
         .like {
-            left: 10px;
-        }
-        .dislike {
             right: 10px;
+            color: #ff4081;
+        }
+
+        .dislike {
+            left: 10px;
+            color: #64b5f6;
+        }
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-top: 20px;
+            color: #333;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="anime" style="background-image: url('anime1.jpg');"></div>
-        <button class="like" onclick="swipeRight()">❤️</button>
-        <button class="dislike" onclick="swipeLeft()">❌</button>
+        <button class="button like" onclick="swipeRight()">❤️</button>
+        <button class="button dislike" onclick="swipeLeft()">❌</button>
     </div>
 
     <script>
-        // Add your JavaScript logic here
+        // JavaScript logic for swipe actions
         function swipeRight() {
             // Handle swipe right (like)
             // You can implement additional logic here, e.g., saving liked anime
