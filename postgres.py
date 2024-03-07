@@ -4,7 +4,7 @@ import psycopg2 as pg
 
 class Connector:
     def __init__(self) -> None:
-        self.color = "red"
+
         try:
             self.conn = pg.connect(
                 host="localhost",
@@ -17,13 +17,13 @@ class Connector:
 
         except pg.Error as e:
             print("error connecting to database")
-        else:
-            print("connection successful")
+
     def get_cursor(self):
         """
         Get a cursor for executing SQL queries.
         """
         return self.cur
+
     def close(self):
         """
         Close the database connection.
@@ -31,6 +31,7 @@ class Connector:
         self.cur.close()
         self.conn.close()
         print("Connection closed.")
+
     def parse_data(self):
         return self.soup
 

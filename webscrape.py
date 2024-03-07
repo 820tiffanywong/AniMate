@@ -12,10 +12,13 @@ URL = "https://myanimelist.net/topanime.php"
 
 # print(page.text)
 
+
 def scrape_data(URL):
     page = requests.get(URL)
     soup = bs(page.content, "html.parser")
+
     return soup
+
 
 def parse_data(soup):
     anime_names = []
@@ -26,20 +29,20 @@ def parse_data(soup):
         details = title.find("div", {"class": "detail"})
         anime_name = details.find("a").text
         anime_names.append(anime_name)
+
     return anime_names
 
 
 soup = scrape_data(URL)
 anime_data = parse_data(soup)
 df = pd.DataFrame({"anime_name": anime_data})
-df.head()
 
-insert_query = """ INSERT INTO anime (anime_name) VALUES (%s)"""
+values = [tuple(x) for x in df.to_numpy()]
+
 try:
-    for anime_name in anime_data:
-        # insert_query = f"INSERT INTO anime (anime_name) VALUES ('{anime_name}')"
-        cur.execute(insert_query, (anime_name,))
+    execute_values(cur, "INSERT INTO anime VALUES %s", values)
     conn.commit()
     print("data inserted successfully")
+
 except Exception as e:
     print(f"error: {e}")
