@@ -24,6 +24,12 @@ class Connector:
         """
         return self.cur
 
+    def commit(self):
+
+        self.conn.commit()
+
+        return None
+
     def close(self):
         """
         Close the database connection.
